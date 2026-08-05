@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+int main() {
+    int n;
+    // Read the input value
+    if (scanf("%d", &n) != 1) {
+        return 1;
+    }
+
+    // Calculate total grid size
+    int size = 2 * n - 1;
+
+    // Loop through each row
+    for (int i = 0; i < size; i++) {
+        // Loop through each column
+        for (int j = 0; j < size; j++) {
+            // Find the minimum distance to any edge
+            int min = i;
+            if (j < min) min = j;
+            if (size - 1 - i < min) min = size - 1 - i;
+            if (size - 1 - j < min) min = size - 1 - j;
+
+            // Print the calculated value followed by a space
+            printf("%d ", n - min);
+        }
+        // Move to the next line after completing a row
+        printf("\n");
+    }
+
+    return 0;
+}
