@@ -1,0 +1,29 @@
+#include<stdbool.h>
+#include<stdlib.h>
+typedef struct
+{
+    struct TreeNode** stack;
+    int top;
+    int capacity;
+}BSTIterator;
+
+pushALLleft(BSTIterator* obj,struct TreeNode* node)
+{
+    while (node !=NULL)
+    {
+        if (obj->top >= obj->capacity - 1)
+        {
+            obj->capacity *=2;
+            obj->stack = realloc(obj->stack, obj->capacity * sizeof(struct TreeNode*));
+        }
+        obj->stack[++(obj->top)] = node;
+        node = node->left;
+    }
+}
+
+BSTIterator* bstIteratorCreate(struct TreeNode* root)
+{
+    BSTIterator* obj = (BSTIterator*)malloc(sizeof(BSIterator));
+    obj->capacity = 128;
+    obj->stack = (struct TreeNode**)malloc(obj->capacity)
+}
