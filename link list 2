@@ -1,0 +1,23 @@
+bool hasCycle(struct ListNode *head) {
+    if (head == NULL || head->next == NULL) {
+        return false;
+    }
+    
+    struct ListNode *slow = head;
+    struct ListNode *fast = head;
+    
+    // Move slow pointer by 1 step and fast pointer by 2 steps
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+        
+        // If they meet, there is a cycle
+        if (slow == fast) {
+            return true;
+        }
+    }
+    
+    // If fast reaches the end, there is no cycle
+    return false;
+    
+}
