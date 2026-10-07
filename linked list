@@ -1,0 +1,29 @@
+struct ListNode *detectCycle(struct ListNode *head) {
+    if (head == NULL || head->next == NULL) {
+        return NULL;
+    }
+    
+    struct ListNode *slow = head;
+    struct ListNode *fast = head;
+    
+    // Step 1: Detect if a cycle exists
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+        
+        // Cycle found
+        if (slow == fast) {
+            struct ListNode *entry = head;
+            
+            // Step 2: Find the entry point of the cycle
+            while (entry != slow) {
+                entry = entry->next;
+                slow = slow->next;
+            }
+            return entry;
+        }
+    }
+    
+    return NULL; // No cycle
+    
+}
