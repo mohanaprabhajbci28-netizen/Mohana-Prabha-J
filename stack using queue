@@ -1,0 +1,67 @@
+#include <stdbool.h>
+#include <stdlib.h>
+
+
+typedef struct {
+    int data[200];
+    int front;
+    int rear;
+} Queue;
+
+// Define the Stack structure using two queues
+typedef struct {
+    Queue q1;
+    Queue q2;
+    
+} MyStack;
+
+
+MyStack* myStackCreate() {
+    MyStack* obj = (MyStack*)malloc(sizeof(MyStack));
+    obj->q1.front = 0;
+    obj->q1.rear = 0;
+    obj->q2.front = 0;
+    obj->q2.rear = 0;
+    return obj;
+    
+}
+
+void myStackPush(MyStack* obj, int x) {
+    obj->q2.data[obj->q2.rear++] = x;
+    
+    // 2. Move all elements from q1 to q2 so the new element sits at the front
+    while (obj->q1.front < obj->q1.rear) {
+        obj->q2.data[obj->q2.rear++] = obj->q1.data[obj->q1.front++];
+    }
+    
+    // 3. Swap q1 and q2 so that q1 always holds the current stack elements
+    Queue temp = obj->q1;
+    obj->q1 = obj->q2;
+    obj->q2 = temp;
+    
+    // 4. Reset q2 for the next push operation
+    obj->q2.front = 0;
+    obj->q2.rear = 0;
+    
+}
+
+int myStackPop(MyStack* obj) {
+    return obj->q1.data[obj->q1.front++];
+
+    
+}
+
+int myStackTop(MyStack* obj) {
+    return obj->q1.data[obj->q1.front];
+    
+}
+
+bool myStackEmpty(MyStack* obj) {
+    return obj->q1.front == obj->q1.rear;
+    
+}
+
+void myStackFree(MyStack* obj) {
+     free(obj);
+    
+}
