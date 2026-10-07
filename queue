@@ -1,0 +1,55 @@
+#include <stdbool.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 250
+
+typedef struct {
+    int s1[MAX_SIZE];
+    int top1;
+    int s2[MAX_SIZE];
+    int top2;
+} MyQueue;
+
+MyQueue* myQueueCreate() {
+    MyQueue* queue = (MyQueue*)malloc(sizeof(MyQueue));
+    queue->top1 = -1;
+    queue->top2 = -1;
+    return queue;
+}
+
+void myQueuePush(MyQueue* obj, int x) {
+    // Push always goes into the first stack
+    obj->s1[++(obj->top1)] = x;
+}
+
+int myQueuePop(MyQueue* obj) {
+    // If the output stack is empty, move everything from input stack to output stack
+    if (obj->top2 == -1) {
+        while (obj->top1 != -1) {
+            obj->s2[++(obj->top2)] = obj->s1[(obj->top1)--];
+        }
+    }
+    // Pop from the output stack
+    return obj->s2[(obj->top2)--];
+}
+
+int myQueuePeek(MyQueue* obj) {
+    // If the output stack is empty, move everything from input stack to output stack
+    if (obj->top2 == -1) {
+        while (obj->top1 != -1) {
+            obj->s2[++(obj->top2)] = obj->s1[(obj->top1)--];
+        }
+    }
+    // Look at the top of the output stack
+    return obj->s2[obj->top2];
+}
+
+bool myQueueEmpty(MyQueue* obj) {
+    // The queue is empty only if both stacks are empty
+    return (obj->top1 == -1 && obj->top2 == -1);
+}
+
+void myQueueFree(MyQueue* obj) {
+    free(obj);
+}
+
